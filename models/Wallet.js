@@ -19,7 +19,6 @@ const WalletSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-// Ensure a user can only have one wallet
 WalletSchema.index({ user: 1 }, { unique: true });
 
 module.exports = mongoose.model('Wallet', WalletSchema);

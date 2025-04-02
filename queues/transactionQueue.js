@@ -1,7 +1,6 @@
 const { Queue } = require('bullmq');
 const Redis = require('ioredis');
 
-// Simple local Redis configuration
 const connection = new Redis({
   host: '127.0.0.1',
   port: 6379,
@@ -14,7 +13,7 @@ connection.on('connect', () => {
 });
 
 connection.on('error', (err) => {
-  console.error('❌ Redis connection error:', err.message);
+  console.error('Redis connection error:', err.message);
 });
 
 const transactionQueue = new Queue('transactionQueue', { 

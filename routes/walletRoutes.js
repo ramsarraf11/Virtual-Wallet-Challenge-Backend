@@ -1,15 +1,7 @@
 const express = require('express');
 const { protect } = require('../middlewares/authentication');
-const {
-  depositValidator,
-  payoutValidator
-} = require('../validators/walletValidator');
-const {
-  getWallet,
-  deposit,
-  payout,
-  getTransactions
-} = require('../controllers/walletController');
+const { depositValidator, payoutValidator } = require('../validators/walletValidator');
+const {getWallet, deposit, payout, getTransactions } = require('../controllers/walletController');
 
 const router = express.Router();
 

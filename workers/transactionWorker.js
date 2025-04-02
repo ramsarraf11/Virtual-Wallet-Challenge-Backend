@@ -70,14 +70,14 @@ function startTransactionWorkers() {
   });
 
   worker.on('completed', job => {
-    console.log(`✅ Transaction ${job.id} completed`);
+    console.log(`Transaction ${job.id} completed`);
   });
 
   worker.on('failed', (job, err) => {
-    console.error(`❌ Transaction ${job.id} failed:`, err.message);
+    console.error(`Transaction ${job.id} failed:`, err.message);
   });
 
-  console.log('🚀 Transaction workers started');
+  console.log('Transaction workers started');
 }
 
 module.exports = { startTransactionWorkers };
