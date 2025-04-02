@@ -9,7 +9,7 @@ const connection = new Redis({
 });
 
 connection.on('connect', () => {
-  console.log('✅ Connected to local Redis');
+  console.log('Connected to local Redis');
 });
 
 connection.on('error', (err) => {
