@@ -1,0 +1,47 @@
+// mock-11
+
+// # Plan My Trip
+
+// ## Instructions:
+
+// - Read each and every line of question carefully, missing any functionality which was asked will reduce your overall marks.
+// - Use **React** for frontend.
+// - Use **Chakra UI** or **MUI** as UI library.
+// - Use **Node, Express, Mongo (NEM)** as backend.
+
+// ---
+
+// ## Problem Statement:
+
+// The task is to create a small Full-Stack web application, where users can post details of their travel destination, and other users can access it. The frontend of the app should be implemented using React, and Node, Express, Mongo (NEM) as backend.
+
+// ### Frontend:
+
+// - Your app should have navbar with the following routes
+//     - **Post Data**
+//     - **Retrieve Data**
+// - The **Post Data** page should have a form with the following fields
+//     - Name
+//     - Email Address
+//     - Destination
+//         - This is a dropdown with the following values: India, Africa, Europe, America as options
+//     - No. of travellers
+//     - Budget Per Person
+//     - Submit Button
+//     - On form submit, store the data in your backend.
+// - The **Retrieve Data** page should render all the form submissions with all the details in the form of cards.
+// - There should be a “**Delete**” button appended to each card, which when clicked delete the specific card from the backend as well as from the UI.
+// - The user should be able to filter the data based on destination, and the functionality should be implemented using backend API’s.
+// - The user should be able to sort the data based on the budget per person.
+// - Both Filter and Sort functionality should work together seamlessly and should be implemented through Backend API’s. (Implementing these functionalities in frontend won’t be considered)
+
+// ---
+
+// ### Backend:
+
+// - Create the following API’s
+//     - Post API
+//     - Retrieve API
+//     - Delete API
+//     - Filter Data
+//     - Sort Data
