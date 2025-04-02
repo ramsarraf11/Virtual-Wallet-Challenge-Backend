@@ -10,11 +10,8 @@ exports.register = async (req, res, next) => {
     const user = await User.create({ name, email, password });
     const wallet = await Wallet.create({ user: user._id });
     
-    const token = generateToken(user._id);
-
     res.status(201).json({
       success: true,
-      token,
       walletId: wallet._id
     });
   } catch (err) {
