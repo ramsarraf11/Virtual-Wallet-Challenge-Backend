@@ -1,21 +1,26 @@
-const jwt = require("jsonwebtoken")
-require("dotenv").config()
-async function authenticate(req, res, next) {
-    try {
-        let token = req.headers.authorization
-        if (token) {
-            let decoded = jwt.verify(process.env.secretKey, token)
-            if (decoded) {
-                next()
-            } else {
-                res.send("Please check login information")
-            }
-        } else {
-            res.send("Please register")
-        }
-    } catch (error) {
-        res.send(error)
-    }
-}
+const jwt = require('jsonwebtoken');
+const ErrorResponse = require('../utils/errorResponse');
+const User = require('../models/User');
 
-module.exports={authenticate}
+exports.protect = async (req, res, next) => {
+  let token;
+
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token) {
+    return next(new ErrorResponse('Not authorized to access this route', 401));
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = await User.findById(decoded.id);
+    next();
+  } catch (err) {
+    return next(new ErrorResponse('Not authorized to access this route', 401));
+  }
+};

@@ -1,32 +1,47 @@
-const express = require("express")
-require('dotenv').config()
-const cors = require('cors')
+const express = require('express');
+require('dotenv').config();
+const cors = require('cors');
+const connectDB = require('./configs/db');
+const authRoutes = require('./routes/authRoutes');
+const walletRoutes = require('./routes/walletRoutes');
+const { startTransactionWorkers } = require('./workers/transactionWorker');
 
+const app = express();
 
-const { connection } = require("./configs/db")
-const { user } = require("./routes/userRoute")
-const { post } = require("./routes/postRoute")
+// Connect to database
+connectDB();
 
-const app = express()
-app.use(express.json())
-app.use(cors({
-    origin: "*"
-}))
+// Middleware
+app.use(express.json());
+app.use(cors());
 
+// Routes
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/wallet', walletRoutes);
 
-app.get("/", (req, res) => {
-    res.send("Home Page")
-})
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.statusCode || 500).json({
+    success: false,
+    error: err.message || 'Server Error'
+  });
+});
 
-app.use("/", user, post)
+const PORT = process.env.PORT || 5000;
 
+const startServer = async () => {
+  try {
+    // Start transaction workers
+    startTransactionWorkers();
+    
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+};
 
-app.listen((process.env.port), async () => {
-    try {
-        await connection
-        console.log(`db is connected`)
-    } catch (error) {
-        console.log(error)
-    }
-    console.log(`server is on ${process.env.port}`)
-})
+startServer();
