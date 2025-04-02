@@ -15,20 +15,20 @@ A high-performance financial transaction system handling 500+ concurrent deposit
 - **ACID Compliant**: Fully transactional MongoDB operations
 
 ### Performance
-- **High Concurrency**: 800+ concurrent requests handled
+- **High Concurrency**: concurrent requests handled
 - **Queue System**: BullMQ with Redis backend
-- **Optimized Workers**: 50 concurrent transaction processors
+- **Optimized Workers**:concurrent transaction processors
 
 ### Security
-- **JWT Authentication**: HMAC-SHA256 signed tokens
+- **JWT Authentication**: signed tokens
 - **Password Hashing**: bcryptjs with salt rounds
 - **TLS Encryption**: Secure Redis connections
 
 ## 📦 Installation
 
-```bash
+```cmd
 # Clone repository
-git clone https://github.com/yourusername/virtual-wallet.git
+git clone https://github.com/ramsarraf11/Virtual-Wallet-Challenge-Backend.git
 cd virtual-wallet
 
 # Install dependencies
@@ -37,6 +37,8 @@ npm install
 # Configure environment
 cp .env.example .env
 
-# Start services
-npm run services  # Starts MongoDB and Redis
-npm start         # Starts the application
+# Starts MongoDB and Redis
+redis-server & mongose
+
+# Starts the application
+npm start         
