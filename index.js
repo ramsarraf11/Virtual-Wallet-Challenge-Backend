@@ -4,11 +4,12 @@ const cors = require('cors');
 const connectDB = require('./configs/db');
 const authRoutes = require('./routes/authRoutes');
 const walletRoutes = require('./routes/walletRoutes');
+const { apiLimiter } = require('./middlewares/rateLimiter');
 const { startTransactionWorkers } = require('./workers/transactionWorker');
 
 const app = express();
 
-
+app.use(apiLimiter);
 app.use(express.json());
 app.use(cors());
 
