@@ -8,13 +8,10 @@ const redisConfig = require('../queues/transactionQueue').connection;
 
 function startTransactionWorkers() {
   const worker = new Worker('transactionQueue', async job => {
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    
     try {
       const { walletId, amount, type } = job.data;
       
-      const wallet = await Wallet.findById(walletId).session(session);
+      const wallet = await Wallet.findById(walletId);
       if (!wallet) throw new ErrorResponse('Wallet not found', 404);
       
       if (type === 'PAYOUT' && wallet.balance < amount) {
@@ -27,8 +24,7 @@ function startTransactionWorkers() {
       
       await Wallet.updateOne(
         { _id: walletId },
-        { $set: { balance: newBalance } },
-        { session }
+        { $set: { balance: newBalance } }
       );
       
       const transaction = new Transaction({
@@ -39,8 +35,7 @@ function startTransactionWorkers() {
         reference: uuidv4()
       });
       
-      await transaction.save({ session });
-      await session.commitTransaction();
+      await transaction.save();
       
       return {
         success: true,
@@ -48,8 +43,6 @@ function startTransactionWorkers() {
         transactionId: transaction._id
       };
     } catch (error) {
-      await session.abortTransaction();
-      
       const transaction = new Transaction({
         wallet: job.data.walletId,
         amount: job.data.amount,
@@ -61,8 +54,6 @@ function startTransactionWorkers() {
       await transaction.save();
       
       throw error;
-    } finally {
-      session.endSession();
     }
   }, {
     connection: redisConfig,
