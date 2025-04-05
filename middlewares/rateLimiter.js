@@ -9,7 +9,7 @@ const apiLimiter = rateLimit({
     sendCommand: (...args) => redisClient.call(...args),
   }),
   windowMs: 15 * 60 * 1000,
-  max: 100,
+  max: 3000,
   standardHeaders: true,
   legacyHeaders: false,
   message: 'Too many requests, please try again later',
@@ -26,7 +26,7 @@ const authLimiter = rateLimit({
     sendCommand: (...args) => redisClient.call(...args),
   }),
   windowMs: 60 * 60 * 1000,
-  max: 10,
+  max: 3000,
   keyGenerator: (req) => req.ip + req.body.email,
   message: 'Too many login attempts, please try again later'
 });
@@ -36,13 +36,19 @@ const walletOperationLimiter = rateLimit({
     sendCommand: (...args) => redisClient.call(...args),
   }),
   windowMs: 5 * 60 * 1000,
-  max: 30,
+  max: 3000,
   keyGenerator: (req) => req.user.id,
   message: 'Too many wallet operations, please slow down'
 });
 
+const clearAllRateLimits = async () => {
+  await redisClient.flushdb();
+  console.log('All Redis rate limit data cleared');
+};
+
 module.exports = {
   apiLimiter,
   authLimiter,
-  walletOperationLimiter
+  walletOperationLimiter,
+  clearAllRateLimits
 };

@@ -58,11 +58,28 @@ function startTransactionWorkers() {
   }, {
     connection: redisConfig,
     concurrency: 5
-  });
+  })
 
   worker.on('completed', job => {
     console.log(`Transaction ${job.id} completed`);
   });
+
+  // worker.on('completed', async (job) => {
+  //   const transactions = await Transaction.find({ 
+  //     wallet: job.data.walletId 
+  //   });
+    
+  //   const calculatedBalance = transactions
+  //     .filter(t => t.status === 'COMPLETED')
+  //     .reduce((sum, t) => t.type === 'DEPOSIT' ? sum + t.amount : sum - t.amount, 0);
+    
+  //   const actualBalance = (await Wallet.findById(job.data.walletId)).balance;
+    
+  //   if (actualBalance !== calculatedBalance) {
+  //     console.error(`Balance mismatch! Actual: ${actualBalance}, Calculated: ${calculatedBalance}`);
+  //     console.error('Transaction integrity violated');
+  //   }
+  // });
 
   worker.on('failed', (job, err) => {
     console.error(`Transaction ${job.id} failed:`, err.message);
