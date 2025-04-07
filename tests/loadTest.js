@@ -4,7 +4,7 @@ const { clearAllRateLimits } = require('../middlewares/rateLimiter');
 const BASE_URL = 'http://localhost:5000/api/v1';
 const TEST_USER = {
   name: 'Load Test User',
-  email: `loadtest44@example.com`,
+  email: `loadtest099@example.com`,
   password: 'password123'
 };
 const TRANSACTION_AMOUNT = 1;
@@ -86,97 +86,3 @@ const verifyBalance = async (authToken) => {
 };
 
 runLoadTest();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// #################################################################################################
-
-
-// const axios = require('axios');
-// const { clearAllRateLimits } = require('../middlewares/rateLimiter');
-
-// // 1. Create a test user and get auth token
-// async function setup() {
-//   try {
-//     // 1. Register the user
-//     const registerResponse = await axios.post('http://localhost:5000/api/v1/auth/register', {
-//       name: 'Load Test User1',
-//       email: 'loadtest7@example.com',
-//       password: 'password123',
-//     });
-
-//     // 2. Login with the same credentials to get token
-//     const loginResponse = await axios.post('http://localhost:5000/api/v1/auth/login', {
-//       email: 'loadtest7@example.com',
-//       password: 'password123',
-//     });
-
-//     // Return the token from login response
-//     return loginResponse.data.token; // Make sure this matches your API response structure
-//   } catch (err) {
-//     console.error('Setup failed:', {
-//       status: err.response?.status,
-//       data: err.response?.data,
-//       message: err.message
-//     });
-//     process.exit(1);
-//   }
-// }
-
-// // 2. Simulate 500 concurrent deposits
-// async function runLoadTest() {
-//   const authToken = await setup();
-
-//   const requests = Array(500).fill().map(async (_, i) => {
-//     try {
-//       const res = await axios.post(
-//         'http://localhost:5000/api/v1/wallet/deposit',
-//         { amount: 10 },
-//         {
-//           headers: {
-//             'Authorization': `Bearer ${authToken}`,
-//           },
-//         }
-//       );
-//       console.log(`Request ${i + 1}: Status ${res.status}`);
-//     } catch (err) {
-//       console.error(`Request ${i + 1} failed:`, err.message);
-//     }
-//   });
-
-//   await Promise.all(requests); // Run all requests concurrently
-//   console.log('All Load test completed!');
-// }
-
-// runLoadTest();
-// clearAllRateLimits(); // Clear rate limits after the test
